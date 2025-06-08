@@ -44,10 +44,11 @@ export default function App() {
     loadMovies();
   }, [query]);
 
-  const handleFormAction = (formData: FormData) => {
-    const newQuery = (formData.get('query') as string)?.trim();
-    if (!newQuery) return;
-  
+  const handleSearchSubmit = (newQuery: string) => {
+    if (newQuery.trim() === '') {
+      toast.error('Please enter your search query.');
+      return;
+    }
     setQuery(newQuery);
     setMovies([]);
     setIsError(false);
@@ -66,7 +67,7 @@ export default function App() {
   return (
     <div className={styles.app}>
       <Toaster position="top-center" />
-      <SearchBar action={handleFormAction} />
+      <SearchBar onSubmit={handleSearchSubmit} />
       {isLoading && <Loader />}
       {isError && <ErrorMessage message="Something went wrong. Please try again." />}
       {!isLoading && !isError && movies.length > 0 && (

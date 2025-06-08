@@ -21,17 +21,17 @@ import styles from './SearchBar.module.css';
 // }
 
 interface SearchBarProps {
-  action: (formData: FormData) => void;
+  onSubmit: (query: string) => void
 }
 
-export default function SearchBar({ action }: SearchBarProps) {
+export default function SearchBar({ onSubmit }: SearchBarProps) {
   const handleFormAction = (formData: FormData) => {
     const query = (formData.get("query") as string)?.trim();
     if (!query) {
       toast.error("Please enter your search query.");
       return;
     }
-    action(formData);
+    onSubmit(query);
   };
   return (
     <header className={styles.header}>
